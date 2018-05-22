@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>HANGMAN</title>
+  <!-- BOOTSTRAP  -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery.js"></script>
+
+</head>
+
+<body>
+
+  <header class="jumbotron jumbotron-fluid text-center bg-info text-white"> 
+    <div class="container">
+      <h1>Hangman Game</h1>
+      
+      <h4 class="font-weight-light">Guess what the word is it ?</h4>
+      
+    </div>
+  </header>
+
+  <section class="container text-center">
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <div class="card ">
+          <div class="card-header">
+            Guesses the word below
+          </div>
+          <div id="thisTurnWord"></div>
+        </div>        
+      </div>
+      <div class="col-2"></div>
+    </div>
+
+    <div class="row mt-4 py-5">
+
+      <div class="col-2"></div>
+
+      <div class="col-3">
+        <div class="card ">
+          <div class="card-header">
+            Guesses left
+          </div>
+          <h1 id="left"> 9 </h1>
+        </div>
+      </div><!--row 0 end-->  
+
+      <div class="col-5">
+        <div class="card">
+          <div class="card-header bg-info text-white">
+            Your guesses so far
+          </div>
+          <h1 id="history" class="text-info"></h1>
+        </div>   
+      </div>
+
+      <div class="col-2"></div>
+    </div><!--row 1 end-->    
+
+    <div class="row bg-light mt-4 py-5">
+
+      <div class="col-2"></div>
+
+      <div class="col-4">
+        <div class="card">
+          <div class="card-header">Wins</div>
+          <h2 id="wins" class="text-warning"> 0 </h2>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="card">
+          <div class="card-header">losses</div>
+          <h2 id="losses" class="text-warning"> 0 </h2>
+        </div>
+      </div>
+
+      <div class="col-2"></div>
+      
+    </div><!--row 2 end-->
+  
+  </section>
+
+
+  <script type="text/javascript">
+
+    $(document).ready(function() {          
+      //  create a var, which is array pinkSongs [], and it contains 5 songs' name; and each song is a string
+      var pinkSongs = ["Beautiful Trauma", "What About Us", "Just Give Me a Reason", "Try", "Perfect"];
+
+      // var thisTurnSong [i] = pick a random song ， and the shows the song on the left
+      
+      var thisTurnSong ;
+
+      // this function will pick up a song from all PINK's songs 
+      function thisTurnSongFun () {
+      
+        //generate a var randomly for the index of pinkSongs
+        var i = Math.floor(Math.random()* pinkSongs.length);
+        // pick up one song from all the songs
+        thisTurnSong = (pinkSongs[i].toLowerCase()).split(" ");
+        
+      };
+
+      thisTurnSongFun();
+      console.log(thisTurnSong);
+
+      var thisTurnWord ;
+
+      //this function will pick up a word from the name of the song
+      function thisTurnWordFun () {      
+        //generate a var randomly for the index of the song 
+        var i = Math.floor(Math.random()* thisTurnSong.length);
+        //pick up a word from the song
+        thisTurnWord = thisTurnSong[i].split("");        
+      };
+
+      thisTurnWordFun ();
+      console.log(thisTurnWord);
+
+      // var eachLetter ;
+
+      //write the letter on the screen, but setup font color as white, so user cannot see it
+      function thisTurnWordLoop () {
+
+          for (i=0; i<thisTurnWord.length; i++){
+
+          //create new div 
+          var newDiv = $("<h1>");
+
+          var newID = "myID" + i;
+
+          console.log(newID);
+
+          var eachLetter = $(newDiv).text(thisTurnWord[i]).addClass("d-inline text-white border-bottom border-danger border-5 mx-1").attr("id", newID);
+          
+          $("#thisTurnWord").append(eachLetter );
+        } ; 
+      }
+
+      thisTurnWordLoop ();
+      
+      // user have how many chance to guess the word, which is double of the letters in the word
+      var userChance = thisTurnWord.length * 2
+      $("#left").text(userChance);
+
+      var losses = 0;
+      var wins = 0;
+
+      function resetGame () {
+        $("#history").empty();
+        $("#thisTurnWord").empty();
+        thisTurnSongFun();
+        thisTurnWordFun();
+        thisTurnWordLoop ();
+        userChance = thisTurnWord.length * 2
+        $("#left").text(userChance);
+      };
+
+      // when user click the key, will trigger the function 
+    document.onkeyup = function (event) {
+
+      //setup a var to record what letter the user type in
+      var userChoice = event.key.toLowerCase();
+
+      //if user type a letter, them show the letter on screen, if not, the show a alert window
+      var checkLetter = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+      
+      var checkLetter_user = checkLetter.indexOf(userChoice);
+      
+      if (checkLetter_user >=0 ){
+        $("#history").append(userChoice +", ");
+      } else {
+        alert(userChoice + " is not a letter!");
+      }
+
+      //if the user pick a wrong letter, he would lose a chance; if user pick a right letter, then will run a loop
+      var checkLetter_word = thisTurnWord.indexOf(userChoice);
+
+      if (checkLetter_word<0){
+        userChance --;
+        $("#left").text(userChance);
+        if (userChance < 0) {
+          losses ++;
+          alert("You lose. Play again.")
+          $("#losses").text(losses);
+          resetGame();
+        }
+      } else {
+
+            for (i=0; i<thisTurnWord.length; i++) {          
+              // if the user choose a right letter, then show the letter on the screen by changing the text color from white to blue
+              if( userChoice == thisTurnWord[i]) {
+
+                var newID = "myID" + i;
+
+                $("#" + newID).removeClass("text-info").addClass("text-success");
+              }  
+            }
+            
+            // get the total of how many class in the doc      
+            var totalInfoColorClass = $(".text-success").length;
+
+            if (totalInfoColorClass == thisTurnWord.length) {
+              wins++;
+              alert("You Win. Play again.");
+              $("#wins").text(wins);
+              resetGame();
+            }         
+        }
+    }
+
+
+    });
+    
+  </script>
+
+</body>
+
+</html>
