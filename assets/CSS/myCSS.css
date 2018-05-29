@@ -1,3 +1,18 @@
 .myFrame {
-      width: 20px;
-    }
+	width: 20px;
+ }
+
+ .imageHolder{
+ 	width: 630px;
+ 	height: 420px;
+ 	padding: 0;
+ }
+
+.gameIntro {
+    background: #FFFFFF;
+    opacity: 0.6;
+    color: Black;
+ 	bottom: 10%;
+    left: 0;
+    width: 100%;
+}

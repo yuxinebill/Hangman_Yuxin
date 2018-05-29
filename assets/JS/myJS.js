@@ -14,11 +14,15 @@ $(document).ready(function() {
         var i = Math.floor(Math.random()* pinkSongs.length);
         // pick up one song from all the songs
         thisTurnSong = (pinkSongs[i].toLowerCase()).split(" ");
-        
+        // pick up one img to from the song's MTV
+        var thisTurnSrc = "assets/imgs/" + (pinkSongs[i].toLowerCase()) + ".jpg"
+        $(".pinkPhoto").attr("src", thisTurnSrc);
       };
 
       thisTurnSongFun();
       console.log(thisTurnSong);
+
+      
 
       var thisTurnWord ;
 
@@ -32,6 +36,9 @@ $(document).ready(function() {
 
       thisTurnWordFun ();
       console.log(thisTurnWord);
+
+      
+
 
       //write the letter on the screen, but setup font color as white, so user cannot see it
       function thisTurnWordLoop () {
