@@ -1,5 +1,5 @@
 
-$(document).ready(function() {          
+$(document).ready(function() {        
       //  create a var, which is array pinkSongs [], and it contains 5 songs' name; and each song is a string
       var pinkSongs = ["Beautiful Trauma", "What About Us", "Just Give Me a Reason", "Try", "Perfect"];
 
@@ -100,7 +100,7 @@ $(document).ready(function() {
       if (checkLetter_word<0){
         userChance --;
         $("#left").text(userChance);
-        if (userChance < 0) {
+        if (userChance < 1) {
           losses ++;
           alert("You lose. Play again.")
           $("#losses").text(losses);
